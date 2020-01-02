@@ -32,39 +32,39 @@ struct LocoInfo {
 
 using TrkAcquiredCallback = void CALL_CONV (*)(const void *sender, LocoInfo);
 
-XN_SHARED_EXPORT bool CALL_CONV apiSupportsVersion(unsigned int version);
-XN_SHARED_EXPORT int CALL_CONV apiSetVersion(unsigned int version);
-XN_SHARED_EXPORT unsigned int CALL_CONV features();
+SIM_SHARED_EXPORT bool CALL_CONV apiSupportsVersion(unsigned int version);
+SIM_SHARED_EXPORT int CALL_CONV apiSetVersion(unsigned int version);
+SIM_SHARED_EXPORT unsigned int CALL_CONV features();
 
-XN_SHARED_EXPORT int CALL_CONV connect();
-XN_SHARED_EXPORT int CALL_CONV disconnect();
-XN_SHARED_EXPORT bool CALL_CONV connected();
+SIM_SHARED_EXPORT int CALL_CONV connect();
+SIM_SHARED_EXPORT int CALL_CONV disconnect();
+SIM_SHARED_EXPORT bool CALL_CONV connected();
 
-XN_SHARED_EXPORT int CALL_CONV trackStatus();
-XN_SHARED_EXPORT void CALL_CONV setTrackStatus(unsigned int trkStatus, LibStdCallback ok,
+SIM_SHARED_EXPORT int CALL_CONV trackStatus();
+SIM_SHARED_EXPORT void CALL_CONV setTrackStatus(unsigned int trkStatus, LibStdCallback ok,
                                                LibStdCallback err);
 
-XN_SHARED_EXPORT void CALL_CONV emergencyStop(LibStdCallback ok, LibStdCallback err);
-XN_SHARED_EXPORT void CALL_CONV locoEmergencyStop(uint16_t addr, LibStdCallback ok,
+SIM_SHARED_EXPORT void CALL_CONV emergencyStop(LibStdCallback ok, LibStdCallback err);
+SIM_SHARED_EXPORT void CALL_CONV locoEmergencyStop(uint16_t addr, LibStdCallback ok,
                                                   LibStdCallback err);
-XN_SHARED_EXPORT void CALL_CONV locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok,
+SIM_SHARED_EXPORT void CALL_CONV locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok,
                                              LibStdCallback err);
-XN_SHARED_EXPORT void CALL_CONV locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState,
+SIM_SHARED_EXPORT void CALL_CONV locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState,
                                             LibStdCallback ok, LibStdCallback err);
-XN_SHARED_EXPORT void CALL_CONV locoAcquire(uint16_t addr, TrkAcquiredCallback,
+SIM_SHARED_EXPORT void CALL_CONV locoAcquire(uint16_t addr, TrkAcquiredCallback,
                                             LibStdCallback err);
-XN_SHARED_EXPORT void CALL_CONV locoRelease(uint16_t addr, LibStdCallback ok);
+SIM_SHARED_EXPORT void CALL_CONV locoRelease(uint16_t addr, LibStdCallback ok);
 
-XN_SHARED_EXPORT void CALL_CONV pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value,
+SIM_SHARED_EXPORT void CALL_CONV pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value,
                                            LibStdCallback ok, LibStdCallback err);
 
-XN_SHARED_EXPORT void CALL_CONV bindBeforeOpen(TrkStdNotifyEvent f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindAfterOpen(TrkStdNotifyEvent f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindBeforeClose(TrkStdNotifyEvent f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindAfterClose(TrkStdNotifyEvent f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindOnTrackStatusChange(TrkStatusChangedEv f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindOnLog(TrkLogEv f, void *data);
-XN_SHARED_EXPORT void CALL_CONV bindOnLocoStolen(TrkLocoEv f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindBeforeOpen(TrkStdNotifyEvent f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindAfterOpen(TrkStdNotifyEvent f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindBeforeClose(TrkStdNotifyEvent f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindAfterClose(TrkStdNotifyEvent f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindOnTrackStatusChange(TrkStatusChangedEv f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindOnLog(TrkLogEv f, void *data);
+SIM_SHARED_EXPORT void CALL_CONV bindOnLocoStolen(TrkLocoEv f, void *data);
 
 }
 
