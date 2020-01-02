@@ -1,7 +1,9 @@
-# C++ Trakce Simulator library
+# Trakce Simulator library
 
-This repository contains sources of the Trakce library, which could be used
-as a replacement of real track-control-system for hJOP.
+This repository contains sources of the Trakce library, which could be used as
+a replacement of [real
+track-control-system](https://github.com/kmzbrnoI/xn-lib-cpp-qt) for
+[hJOPserver](https://hjop.kmz-brno.cz/hJOPserver).
 
 This library implements
 [Trakce API](https://github.com/kmzbrnoI/xn-lib-cpp-qt/wiki).
