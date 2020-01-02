@@ -1,7 +1,7 @@
 #ifndef LIB_MAIN_H
 #define LIB_MAIN_H
 
-#include <deque>
+#include <queue>
 #include <functional>
 #include <memory>
 #include <QCoreApplication>
@@ -23,12 +23,13 @@ public:
 	unsigned int api_version = 0x0001;
 	bool connected = false;
 	QTimer m_hist_timer;
-	std::deque<HistoryFunc> hist;
+	std::queue<HistoryFunc> hist;
 	TrkStatus trkStatus = TrkStatus::On;
 
 	LibMain();
 
-	void log(const QString &msg, LogLevel loglevel);
+	void log(const QString &msg, LogLevel loglevel) const;
+	static QString trkStatusToString(const TrkStatus);
 
 private slots:
 	void m_hist_timer_tick();

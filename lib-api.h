@@ -22,12 +22,12 @@ struct LibStdCallback {
 };
 
 struct LocoInfo {
-	uint16_t addr;
-	bool direction;
-	uint8_t speed;
-	uint8_t maxSpeed;
-	uint32_t functions;
-	bool usedByAnother;
+	uint16_t addr = 0;
+	bool direction = false;
+	uint8_t speed = 0;
+	uint8_t maxSpeed = 28;
+	uint32_t functions = 0;
+	bool usedByAnother = false;
 };
 
 using TrkAcquiredCallback = void CALL_CONV (*)(const void *sender, LocoInfo);

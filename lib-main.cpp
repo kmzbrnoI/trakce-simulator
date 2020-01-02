@@ -11,10 +11,26 @@ LibMain::LibMain() {
 	log("Library loaded.", LogLevel::Info);
 }
 
-void LibMain::log(const QString &msg, LogLevel loglevel) {
+void LibMain::log(const QString &msg, LogLevel loglevel) const {
 	events.call(events.onLog, loglevel, msg);
 }
 
-void LibMain::m_hist_timer_tick() {}
+void LibMain::m_hist_timer_tick() {
+	if (!hist.empty()) {
+		hist.front()();
+		hist.pop();
+	}
+}
 
-} // namespace Xn
+QString LibMain::trkStatusToString(const TrkStatus ts) {
+	if (ts == TrkStatus::Off)
+		return "Off";
+	else if (ts == TrkStatus::Off)
+		return "On";
+	else if (ts == TrkStatus::Programming)
+		return "Programming";
+	else
+		return "Unknown";
+}
+
+} // namespace TrkSim

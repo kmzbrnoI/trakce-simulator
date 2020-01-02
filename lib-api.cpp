@@ -38,8 +38,14 @@ int connect() {
 	if (lib.connected)
 		return TRK_ALREADY_OPENNED;
 
+	lib.log("Connecting...", LogLevel::Info);
 	lib.events.call(lib.events.beforeOpen);
 
+	lib.hist.push([]() {
+		lib.log("Connected", LogLevel::Info);
+		lib.connected = true;
+		lib.events.call(lib.events.afterOpen);
+	});
 
 	return 0;
 }
@@ -50,6 +56,12 @@ int disconnect() {
 	if (!lib.connected)
 		return TRK_NOT_OPENED;
 
+	lib.log("Disconnecting...", LogLevel::Info);
+	lib.hist.push([]() {
+		lib.log("Disconnected", LogLevel::Info);
+		lib.connected = false;
+		lib.events.call(lib.events.afterClose);
+	});
 
 	return 0;
 }
@@ -64,33 +76,77 @@ int trackStatus() {
 	return static_cast<int>(lib.trkStatus);
 }
 
-void setTrackStatus(unsigned int trkStatus, LibStdCallback ok, LibStdCallback err) {
+void setTrackStatus(unsigned int trkStatus, LibStdCallback ok, LibStdCallback) {
+	TrkStatus status = static_cast<TrkStatus>(trkStatus);
+	lib.log("PUT: Set track status: " + LibMain::trkStatusToString(status), LogLevel::Commands);
+	lib.hist.push([status, ok]() {
+		lib.log("GET: Track Status: " + LibMain::trkStatusToString(status), LogLevel::Commands);
+		lib.trkStatus = status;
+		callEv(&lib, ok);
+		lib.events.call(lib.events.onTrkStatusChanged, lib.trkStatus);
+	});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void emergencyStop(LibStdCallback ok, LibStdCallback err) {
+void emergencyStop(LibStdCallback ok, LibStdCallback) {
+	lib.log("PUT: Emergency Stop", LogLevel::Commands);
+	lib.hist.push([ok]() {
+		lib.log("GET: OK", LogLevel::Commands);
+		callEv(&lib, ok);
+	});
 }
 
-void locoEmergencyStop(uint16_t addr, LibStdCallback ok, LibStdCallback err) {
+void locoEmergencyStop(uint16_t addr, LibStdCallback ok, LibStdCallback) {
+	lib.log("PUT: Loco "+QString::number(addr)+" Emergency Stop", LogLevel::Commands);
+	lib.hist.push([ok]() {
+		lib.log("GET: OK", LogLevel::Commands);
+		callEv(&lib, ok);
+	});
 }
 
-void locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok, LibStdCallback err) {
+void locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok, LibStdCallback) {
+	lib.log("PUT: Loco "+QString::number(addr)+" set speed: "+QString::number(speed)+
+	        ", direction: "+QString::number(static_cast<int>(dir)), LogLevel::Commands);
+	lib.hist.push([ok]() {
+		lib.log("GET: OK", LogLevel::Commands);
+		callEv(&lib, ok);
+	});
 }
 
 void locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState, LibStdCallback ok,
-                 LibStdCallback err) {
+                 LibStdCallback) {
+	lib.log("PUT: Loco "+QString::number(addr)+" set func: mask="+QString::number(funcMask, 2)+
+	        ", state="+QString::number(funcState, 2), LogLevel::Commands);
+	lib.hist.push([ok]() {
+		lib.log("GET: OK", LogLevel::Commands);
+		callEv(&lib, ok);
+	});
 }
 
-void locoAcquire(uint16_t addr, TrkAcquiredCallback acquired, LibStdCallback err) {
+void locoAcquire(uint16_t addr, TrkAcquiredCallback acquired, LibStdCallback) {
+	lib.log("PUT: Loco "+QString::number(addr)+" Acquire", LogLevel::Commands);
+	lib.hist.push([addr, acquired]() {
+		LocoInfo info;
+		info.addr = addr;
+		lib.log("GET: Loco Info", LogLevel::Commands);
+		if (nullptr != acquired)
+			acquired(&lib, info);
+	});
 }
 
 void locoRelease(uint16_t addr, LibStdCallback ok) {
-	(void)addr;
+	lib.log("PUT: Loco "+QString::number(addr)+" Release", LogLevel::Commands);
 	callEv(&lib, ok);
 }
 
-void pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value, LibStdCallback ok, LibStdCallback err) {
+void pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value, LibStdCallback ok, LibStdCallback) {
+	lib.log("PUT: Loco "+QString::number(addr)+" POM CV "+QString::number(cv)+
+	        ", val="+QString::number(value), LogLevel::Commands);
+	lib.hist.push([ok]() {
+		lib.log("GET: OK", LogLevel::Commands);
+		callEv(&lib, ok);
+	});
 }
 
 ///////////////////////////////////////////////////////////////////////////////
