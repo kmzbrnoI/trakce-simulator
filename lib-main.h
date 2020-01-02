@@ -1,11 +1,11 @@
 #ifndef LIB_MAIN_H
 #define LIB_MAIN_H
 
-#include <queue>
-#include <functional>
-#include <memory>
 #include <QCoreApplication>
 #include <QTimer>
+#include <functional>
+#include <memory>
+#include <queue>
 
 #include "lib-common-defs.h"
 #include "lib-events.h"
@@ -33,9 +33,6 @@ public:
 
 private slots:
 	void m_hist_timer_tick();
-
-private:
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -14,7 +14,7 @@ constexpr std::array<unsigned int, 1> API_SUPPORTED_VERSIONS {
 
 extern "C" {
 
-using LibCallbackFunc = void CALL_CONV (*) (void *sender, void *data);
+using LibCallbackFunc = void CALL_CONV (*)(void *sender, void *data);
 
 struct LibStdCallback {
 	LibCallbackFunc func;
@@ -42,21 +42,21 @@ SIM_SHARED_EXPORT bool CALL_CONV connected();
 
 SIM_SHARED_EXPORT int CALL_CONV trackStatus();
 SIM_SHARED_EXPORT void CALL_CONV setTrackStatus(unsigned int trkStatus, LibStdCallback ok,
-                                               LibStdCallback err);
+                                                LibStdCallback err);
 
 SIM_SHARED_EXPORT void CALL_CONV emergencyStop(LibStdCallback ok, LibStdCallback err);
 SIM_SHARED_EXPORT void CALL_CONV locoEmergencyStop(uint16_t addr, LibStdCallback ok,
-                                                  LibStdCallback err);
+                                                   LibStdCallback err);
 SIM_SHARED_EXPORT void CALL_CONV locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok,
-                                             LibStdCallback err);
+                                              LibStdCallback err);
 SIM_SHARED_EXPORT void CALL_CONV locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState,
-                                            LibStdCallback ok, LibStdCallback err);
+                                             LibStdCallback ok, LibStdCallback err);
 SIM_SHARED_EXPORT void CALL_CONV locoAcquire(uint16_t addr, TrkAcquiredCallback,
-                                            LibStdCallback err);
+                                             LibStdCallback err);
 SIM_SHARED_EXPORT void CALL_CONV locoRelease(uint16_t addr, LibStdCallback ok);
 
 SIM_SHARED_EXPORT void CALL_CONV pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value,
-                                           LibStdCallback ok, LibStdCallback err);
+                                            LibStdCallback ok, LibStdCallback err);
 
 SIM_SHARED_EXPORT void CALL_CONV bindBeforeOpen(TrkStdNotifyEvent f, void *data);
 SIM_SHARED_EXPORT void CALL_CONV bindAfterOpen(TrkStdNotifyEvent f, void *data);
@@ -65,7 +65,6 @@ SIM_SHARED_EXPORT void CALL_CONV bindAfterClose(TrkStdNotifyEvent f, void *data)
 SIM_SHARED_EXPORT void CALL_CONV bindOnTrackStatusChange(TrkStatusChangedEv f, void *data);
 SIM_SHARED_EXPORT void CALL_CONV bindOnLog(TrkLogEv f, void *data);
 SIM_SHARED_EXPORT void CALL_CONV bindOnLocoStolen(TrkLocoEv f, void *data);
-
 }
 
 } // namespace TrkSim

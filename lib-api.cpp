@@ -1,6 +1,6 @@
 #include "lib-api.h"
-#include "lib-main.h"
 #include "lib-errors.h"
+#include "lib-main.h"
 
 namespace TrkSim {
 
@@ -67,15 +67,11 @@ int disconnect() {
 	return 0;
 }
 
-bool connected() {
-	return lib.connected;
-}
+bool connected() { return lib.connected; }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int trackStatus() {
-	return static_cast<int>(lib.trkStatus);
-}
+int trackStatus() { return static_cast<int>(lib.trkStatus); }
 
 void setTrackStatus(unsigned int trkStatus, LibStdCallback ok, LibStdCallback) {
 	auto status = static_cast<TrkStatus>(trkStatus);
@@ -99,7 +95,7 @@ void emergencyStop(LibStdCallback ok, LibStdCallback) {
 }
 
 void locoEmergencyStop(uint16_t addr, LibStdCallback ok, LibStdCallback) {
-	lib.log("PUT: Loco "+QString::number(addr)+" Emergency Stop", LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " Emergency Stop", LogLevel::Commands);
 	lib.hist.push([ok]() {
 		lib.log("GET: OK", LogLevel::Commands);
 		callEv(&lib, ok);
@@ -107,8 +103,9 @@ void locoEmergencyStop(uint16_t addr, LibStdCallback ok, LibStdCallback) {
 }
 
 void locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok, LibStdCallback) {
-	lib.log("PUT: Loco "+QString::number(addr)+" set speed: "+QString::number(speed)+
-	        ", direction: "+QString::number(static_cast<int>(dir)), LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " set speed: " + QString::number(speed) +
+	            ", direction: " + QString::number(static_cast<int>(dir)),
+	        LogLevel::Commands);
 	lib.hist.push([ok]() {
 		lib.log("GET: OK", LogLevel::Commands);
 		callEv(&lib, ok);
@@ -117,8 +114,9 @@ void locoSetSpeed(uint16_t addr, int speed, bool dir, LibStdCallback ok, LibStdC
 
 void locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState, LibStdCallback ok,
                  LibStdCallback) {
-	lib.log("PUT: Loco "+QString::number(addr)+" set func: mask="+QString::number(funcMask, 2)+
-	        ", state="+QString::number(funcState, 2), LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " set func: mask=" +
+	            QString::number(funcMask, 2) + ", state=" + QString::number(funcState, 2),
+	        LogLevel::Commands);
 	lib.hist.push([ok]() {
 		lib.log("GET: OK", LogLevel::Commands);
 		callEv(&lib, ok);
@@ -126,7 +124,7 @@ void locoSetFunc(uint16_t addr, uint32_t funcMask, uint32_t funcState, LibStdCal
 }
 
 void locoAcquire(uint16_t addr, TrkAcquiredCallback acquired, LibStdCallback) {
-	lib.log("PUT: Loco "+QString::number(addr)+" Acquire", LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " Acquire", LogLevel::Commands);
 	lib.hist.push([addr, acquired]() {
 		LocoInfo info;
 		info.addr = addr;
@@ -137,13 +135,14 @@ void locoAcquire(uint16_t addr, TrkAcquiredCallback acquired, LibStdCallback) {
 }
 
 void locoRelease(uint16_t addr, LibStdCallback ok) {
-	lib.log("PUT: Loco "+QString::number(addr)+" Release", LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " Release", LogLevel::Commands);
 	callEv(&lib, ok);
 }
 
 void pomWriteCv(uint16_t addr, uint16_t cv, uint8_t value, LibStdCallback ok, LibStdCallback) {
-	lib.log("PUT: Loco "+QString::number(addr)+" POM CV "+QString::number(cv)+
-	        ", val="+QString::number(value), LogLevel::Commands);
+	lib.log("PUT: Loco " + QString::number(addr) + " POM CV " + QString::number(cv) +
+	            ", val=" + QString::number(value),
+	        LogLevel::Commands);
 	lib.hist.push([ok]() {
 		lib.log("GET: OK", LogLevel::Commands);
 		callEv(&lib, ok);
