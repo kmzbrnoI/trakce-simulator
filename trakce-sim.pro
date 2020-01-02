@@ -10,7 +10,7 @@ HEADERS += \
 	lib-api.h \
 	lib-main.h \
 	lib-events.h \
-	lib-api-common-defs.h \
+	lib-api-common-def.h \
 	lib-common-defs.h \
 	lib-errors.h
 
