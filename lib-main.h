@@ -1,74 +1,39 @@
 #ifndef LIB_MAIN_H
 #define LIB_MAIN_H
 
+#include <deque>
+#include <functional>
 #include <memory>
-#include <QApplication>
-#include <QMainWindow>
+#include <QCoreApplication>
+#include <QTimer>
 
-#include "ui_config-window.h"
-#include "xn.h"
+#include "lib-common-defs.h"
 #include "lib-events.h"
-#include "settings.h"
 
-namespace Xn {
+namespace TrkSim {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-const QString _CONFIG_FILENAME = "trakce-xn.ini";
-
-class ConfigWindow : public QMainWindow {
-	Q_OBJECT
-public:
-	Ui::MainWindow ui;
-	ConfigWindow(QWidget *parent = nullptr) : QMainWindow(parent) { ui.setupUi(this); }
-};
+using HistoryFunc = std::function<void()>;
 
 class LibMain : public QObject {
 	Q_OBJECT
 public:
-	XpressNet xn;
-	ConfigWindow form;
 	XnEvents events;
-	Settings s;
 	unsigned int api_version = 0x0001;
-	bool gui_config_changing = false;
-	bool opening = false;
-	unsigned int li_ver_hw = 0, li_ver_sw = 0;
+	bool connected = false;
+	QTimer m_hist_timer;
+	std::deque<HistoryFunc> hist;
+	TrkStatus trkStatus = TrkStatus::On;
 
 	LibMain();
-	~LibMain();
 
-	void guiInit();
-	void fillConnectionsCbs();
-	void fillPortCb();
-	void guiOnOpen();
-	void guiOnClose();
-
-	LIType interface(const QString &name) const;
 	void log(const QString &msg, LogLevel loglevel);
 
 private slots:
-	void b_serial_refresh_handle();
-	void cb_connections_changed(int);
-	void b_info_update_handle();
-	void b_li_addr_set_handle();
-
-	void xnOnLog(QString message, Xn::LogLevel loglevel);
-	void xnOnError(QString error);
-	void xnOnConnect();
-	void xnOnDisconnect();
-	void xnOnLocoStolen(LocoAddr);
-	void xnOnTrkStatusChanged(Xn::TrkStatus);
+	void m_hist_timer_tick();
 
 private:
-	void xnGotLIVersion(void *, unsigned hw, unsigned sw);
-	void xnOnLIVersionError(void *, void *);
-	void xnOnCSStatusError(void *, void *);
-	void xnGotCSVersion(void *, unsigned major, unsigned minor, uint8_t id);
-	void xnGotLIAddress(void *, unsigned addr);
-
-	void userLiAddrSet();
-	void userLiAddrSetErr();
 
 };
 
@@ -77,12 +42,12 @@ private:
 // Dirty magic for Qt's event loop
 // This class should be created first
 class AppThread {
-	std::unique_ptr<QApplication> app;
+	std::unique_ptr<QCoreApplication> app;
 	int argc {0};
 
 public:
 	AppThread() {
-		app = std::make_unique<QApplication>(argc, nullptr);
+		app = std::make_unique<QCoreApplication>(argc, nullptr);
 		QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
 		app->exec();
 	}
@@ -91,6 +56,6 @@ public:
 extern AppThread main_thread;
 extern LibMain lib;
 
-} // namespace Xn
+} // namespace TrkSim
 
 #endif

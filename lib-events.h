@@ -4,14 +4,14 @@
 #include <QString>
 #include <cstdint>
 
+#include "lib-common-defs.h"
 #include "lib-api-common-def.h"
-#include "xn.h"
 
 /* This file provides storage & calling capabilities of callbacks from the
  * library back to the hJOPserver.
  */
 
-namespace Xn {
+namespace TrkSim {
 
 using TrkStdNotifyEvent = void CALL_CONV (*)(const void *sender, void *data);
 using TrkStatusChangedEv = void CALL_CONV (*)(const void *sender, void *data, int trkStatus);
@@ -47,9 +47,9 @@ struct XnEvents {
 		if (e.defined())
 			e.func(this, e.data, static_cast<int>(status));
 	}
-	void call(const EventData<TrkLocoEv> &e, LocoAddr addr) const {
+	void call(const EventData<TrkLocoEv> &e, uint16_t addr) const {
 		if (e.defined())
-			e.func(this, e.data, addr.addr);
+			e.func(this, e.data, addr);
 	}
 
 	template <typename F>
@@ -59,6 +59,6 @@ struct XnEvents {
 	}
 };
 
-} // namespace Xn
+} // namespace TrkSim
 
 #endif

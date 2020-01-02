@@ -1,11 +1,12 @@
 #ifndef LIBAPI_H
 #define LIBAPI_H
 
-#include "xn.h"
+#include <array>
+
 #include "lib-api-common-def.h"
 #include "lib-events.h"
 
-namespace Xn {
+namespace TrkSim {
 
 constexpr std::array<unsigned int, 1> API_SUPPORTED_VERSIONS {
     0x0001, // v1.0
@@ -65,10 +66,8 @@ XN_SHARED_EXPORT void CALL_CONV bindOnTrackStatusChange(TrkStatusChangedEv f, vo
 XN_SHARED_EXPORT void CALL_CONV bindOnLog(TrkLogEv f, void *data);
 XN_SHARED_EXPORT void CALL_CONV bindOnLocoStolen(TrkLocoEv f, void *data);
 
-XN_SHARED_EXPORT void CALL_CONV showConfigDialog();
-
 }
 
-} // namespace Xn
+} // namespace TrkSim
 
 #endif
