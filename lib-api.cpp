@@ -45,6 +45,7 @@ int connect() {
 		lib.log("Connected", LogLevel::Info);
 		lib.connected = true;
 		lib.events.call(lib.events.afterOpen);
+		lib.events.call(lib.events.onTrkStatusChanged, lib.trkStatus);
 	});
 
 	return 0;
