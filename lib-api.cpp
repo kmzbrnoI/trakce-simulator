@@ -78,7 +78,7 @@ int trackStatus() {
 }
 
 void setTrackStatus(unsigned int trkStatus, LibStdCallback ok, LibStdCallback) {
-	TrkStatus status = static_cast<TrkStatus>(trkStatus);
+	auto status = static_cast<TrkStatus>(trkStatus);
 	lib.log("PUT: Set track status: " + LibMain::trkStatusToString(status), LogLevel::Commands);
 	lib.hist.push([status, ok]() {
 		lib.log("GET: Track Status: " + LibMain::trkStatusToString(status), LogLevel::Commands);

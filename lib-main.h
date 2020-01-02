@@ -29,7 +29,7 @@ public:
 	LibMain();
 
 	void log(const QString &msg, LogLevel loglevel) const;
-	static QString trkStatusToString(const TrkStatus);
+	static QString trkStatusToString(TrkStatus);
 
 private slots:
 	void m_hist_timer_tick();

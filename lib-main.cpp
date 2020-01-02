@@ -25,12 +25,11 @@ void LibMain::m_hist_timer_tick() {
 QString LibMain::trkStatusToString(const TrkStatus ts) {
 	if (ts == TrkStatus::Off)
 		return "Off";
-	else if (ts == TrkStatus::On)
+	if (ts == TrkStatus::On)
 		return "On";
-	else if (ts == TrkStatus::Programming)
+	if (ts == TrkStatus::Programming)
 		return "Programming";
-	else
-		return "Unknown";
+	return "Unknown";
 }
 
 } // namespace TrkSim
