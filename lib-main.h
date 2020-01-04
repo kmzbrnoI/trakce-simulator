@@ -39,14 +39,15 @@ private slots:
 
 // Dirty magic for Qt's event loop
 // This class should be created first
-struct AppThread {
+class AppThread {
+	std::unique_ptr<QCoreApplication> app;
+	int argc {0};
+
+public:
 	AppThread() {
-		if (nullptr == QCoreApplication::instance()) {
-			int argc = 0;
-			QCoreApplication* app = new QCoreApplication(argc, nullptr);
-			QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
-			app->exec();
-		}
+		app = std::make_unique<QCoreApplication>(argc, nullptr);
+		QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
+		app->exec();
 	}
 };
 
