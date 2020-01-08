@@ -36,6 +36,9 @@ SIM_SHARED_EXPORT bool CALL_CONV apiSupportsVersion(unsigned int version);
 SIM_SHARED_EXPORT int CALL_CONV apiSetVersion(unsigned int version);
 SIM_SHARED_EXPORT unsigned int CALL_CONV features();
 
+SIM_SHARED_EXPORT int CALL_CONV loadConfig(char16_t *filename);
+SIM_SHARED_EXPORT int CALL_CONV saveConfig(char16_t *filename);
+
 SIM_SHARED_EXPORT int CALL_CONV connect();
 SIM_SHARED_EXPORT int CALL_CONV disconnect();
 SIM_SHARED_EXPORT bool CALL_CONV connected();
